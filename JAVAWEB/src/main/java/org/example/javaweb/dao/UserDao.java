@@ -66,4 +66,15 @@ public interface UserDao {
      * @return boolean - true nếu userName đã tồn tại, false nếu chưa
      */
     boolean isUserNameExists(String userName);
+    
+    /**
+     * Xác thực user đăng nhập bằng userName và password 
+     * @param userName - UserName của user
+     * @param password - Mật khẩu của user
+     * @return User - User nếu xác thực thành công, null nếu thất bại
+     */
+    User authenticateUser(String userName, String password);
+    
+    // Forgot password: update password by email
+    boolean updatePasswordByEmail(String email, String newPassword);
 }

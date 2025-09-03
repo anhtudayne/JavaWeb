@@ -286,4 +286,60 @@ public class UserDAOImpl implements UserDao {
         
         return false;
     }
+    
+    @Override
+    public User authenticateUser(String userName, String password) {
+        // Tìm user theo userName và password 
+        String sql = "SELECT id, email, userName, fullName, passWord, avatar, roleId, phone, createdDate FROM users WHERE userName = ? AND passWord = ?";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, userName);
+            stmt.setString(2, password);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setUserName(rs.getString("userName"));
+                user.setFullName(rs.getString("fullName"));
+                user.setPassWord(rs.getString("passWord"));
+                user.setAvatar(rs.getString("avatar"));
+                user.setRoleId(rs.getInt("roleId"));
+                user.setPhone(rs.getString("phone"));
+                
+                Timestamp timestamp = rs.getTimestamp("createdDate");
+                if (timestamp != null) {
+                    user.setCreatedDate(timestamp.toLocalDateTime());
+                }
+                
+                return user;
+            }
+            
+        } catch (Exception e) {
+            System.err.println("Lỗi khi xác thực user: " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
+    @Override
+    public boolean updatePasswordByEmail(String email, String newPassword) {
+        String sql = "UPDATE users SET passWord = ? WHERE email = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, newPassword);
+            stmt.setString(2, email);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            System.err.println("Lỗi khi cập nhật mật khẩu theo email: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

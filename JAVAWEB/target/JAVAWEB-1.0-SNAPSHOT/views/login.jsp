@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Đăng ký tài khoản</title>
+    <title>Đăng nhập</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -28,7 +28,7 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             padding: 40px;
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
         }
         
         .header {
@@ -81,16 +81,10 @@
             background: #fdf2f2;
         }
         
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
         .btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -103,7 +97,7 @@
         
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
         }
         
         .btn:active {
@@ -111,12 +105,13 @@
         }
         
         .btn-secondary {
-            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             margin-top: 15px;
         }
         
         .btn-secondary:hover {
             background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
         
         .message {
@@ -139,20 +134,20 @@
             border: 1px solid #bbf7d0;
         }
         
-        .login-link {
+        .register-link {
             text-align: center;
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid #e1e5e9;
         }
         
-        .login-link a {
+        .register-link a {
             color: #667eea;
             text-decoration: none;
             font-weight: 600;
         }
         
-        .login-link a:hover {
+        .register-link a:hover {
             text-decoration: underline;
         }
         
@@ -160,13 +155,24 @@
             color: #e74c3c;
         }
         
+        .forgot-password {
+            text-align: right;
+            margin-top: 10px;
+        }
+        
+        .forgot-password a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        
         @media (max-width: 600px) {
             .container {
                 padding: 30px 20px;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -174,8 +180,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Đăng ký tài khoản</h1>
-            <p>Tạo tài khoản mới để bắt đầu sử dụng hệ thống</p>
+            <h1>Đăng nhập</h1>
+            <p>Đăng nhập vào tài khoản của bạn</p>
         </div>
         
         <% if (request.getAttribute("error") != null) { %>
@@ -190,14 +196,7 @@
             </div>
         <% } %>
         
-        <form action="register" method="post">
-            <div class="form-group">
-                <label for="email">Email <span class="required">*</span></label>
-                <input type="email" id="email" name="email" 
-                       value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>"
-                       required>
-            </div>
-            
+        <form action="login" method="post">
             <div class="form-group">
                 <label for="userName">Tên đăng nhập <span class="required">*</span></label>
                 <input type="text" id="userName" name="userName" 
@@ -206,82 +205,49 @@
             </div>
             
             <div class="form-group">
-                <label for="fullName">Họ và tên <span class="required">*</span></label>
-                <input type="text" id="fullName" name="fullName" 
-                       value="<%= request.getAttribute("fullName") != null ? request.getAttribute("fullName") : "" %>"
-                       required>
-            </div>
-            
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="passWord">Mật khẩu <span class="required">*</span></label>
-                    <input type="password" id="passWord" name="passWord" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirmPassword">Xác nhận mật khẩu <span class="required">*</span></label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <label for="passWord">Mật khẩu <span class="required">*</span></label>
+                <input type="password" id="passWord" name="passWord" required>
+                <div class="forgot-password">
+                    <a href="forgot-password">Quên mật khẩu?</a>
                 </div>
             </div>
             
-            <div class="form-group">
-                <label for="phone">Số điện thoại</label>
-                <input type="tel" id="phone" name="phone" 
-                       value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : "" %>">
-            </div>
-            
-            <button type="submit" class="btn">Đăng ký</button>
+            <button type="submit" class="btn">Đăng nhập</button>
         </form>
         
-        <div class="login-link">
-            <p>Đã có tài khoản? <a href="login">Đăng nhập ngay</a></p>
+        <div class="register-link">
+            <p>Chưa có tài khoản? <a href="register">Đăng ký ngay</a></p>
             
         </div>
         
-        <div class="nav-links">
-            <a href="index.jsp">Trang chủ</a>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="index.jsp" style="color: #667eea; text-decoration: none; font-weight: 600;">← Quay lại trang chủ</a>
         </div>
     </div>
     
     <script>
+        // Focus vào input đầu tiên khi trang load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('userName').focus();
+        });
+        
         // Validate form trước khi submit
         document.querySelector('form').addEventListener('submit', function(e) {
-            const password = document.getElementById('passWord').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+            const userName = document.getElementById('userName').value.trim();
+            const passWord = document.getElementById('passWord').value.trim();
             
-            if (password !== confirmPassword) {
+            if (!userName) {
                 e.preventDefault();
-                alert('Mật khẩu xác nhận không khớp!');
+                alert('Vui lòng nhập tên đăng nhập hoặc email!');
+                document.getElementById('userName').focus();
                 return false;
             }
             
-            if (password.length < 6) {
+            if (!passWord) {
                 e.preventDefault();
-                alert('Mật khẩu phải có ít nhất 6 ký tự!');
+                alert('Vui lòng nhập mật khẩu!');
+                document.getElementById('passWord').focus();
                 return false;
-            }
-        });
-        
-        // Real-time validation
-        document.getElementById('passWord').addEventListener('input', function() {
-            const password = this.value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (confirmPassword && password !== confirmPassword) {
-                document.getElementById('confirmPassword').classList.add('error');
-            } else {
-                document.getElementById('confirmPassword').classList.remove('error');
-            }
-        });
-        
-        document.getElementById('confirmPassword').addEventListener('input', function() {
-            const password = document.getElementById('passWord').value;
-            const confirmPassword = this.value;
-            
-            if (password !== confirmPassword) {
-                this.classList.add('error');
-            } else {
-                this.classList.remove('error');
             }
         });
     </script>

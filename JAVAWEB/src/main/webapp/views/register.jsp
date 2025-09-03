@@ -110,6 +110,15 @@
             transform: translateY(0);
         }
         
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+            margin-top: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+        }
+        
         .message {
             padding: 12px 16px;
             border-radius: 8px;
@@ -224,7 +233,14 @@
             <button type="submit" class="btn">Đăng ký</button>
         </form>
         
+        <div class="login-link">
+            <p>Đã có tài khoản? <a href="login">Đăng nhập ngay</a></p>
+            
+        </div>
         
+        <div class="nav-links">
+            <a href="index.jsp">Trang chủ</a>
+        </div>
     </div>
     
     <script>

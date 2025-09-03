@@ -87,4 +87,26 @@ public interface UserService {
      * @return String - Thông báo lỗi hoặc null nếu hợp lệ
      */
     String validateRegistration(String email, String userName, String fullName, String passWord);
+    
+    /**
+     * Đăng nhập user bằng userName và password (không dùng email)
+     * @param userName - UserName của user
+     * @param password - Mật khẩu của user
+     * @return User - User nếu đăng nhập thành công, null nếu thất bại
+     */
+    User loginUser(String userName, String password);
+    
+    /**
+     * Validate thông tin đăng nhập bằng userName và password
+     * @param userName - UserName cần validate
+     * @param password - Mật khẩu cần validate
+     * @return String - Thông báo lỗi hoặc null nếu hợp lệ
+     */
+    String validateLogin(String userName, String password);
+    
+    // Quên mật khẩu
+    String forgotPassword(String email);
+    String validateForgotPasswordEmail(String email);
+    boolean updatePasswordByEmail(String email, String newPassword);
+    String validateNewPassword(String password, String confirmPassword);
 }

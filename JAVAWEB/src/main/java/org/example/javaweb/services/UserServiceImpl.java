@@ -168,4 +168,81 @@ public class UserServiceImpl implements UserService {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         return email.matches(emailRegex);
     }
+    
+    @Override
+    public User loginUser(String userName, String password) {
+        // Validate thông tin đăng nhập
+        String validationError = validateLogin(userName, password);
+        if (validationError != null) {
+            System.err.println("Lỗi validation đăng nhập: " + validationError);
+            return null;
+        }
+        
+        // Thực hiện xác thực bằng userName
+        return userDao.authenticateUser(userName, password);
+    }
+    
+    @Override
+    public String validateLogin(String userName, String password) {
+        // Validate userName
+        if (userName == null || userName.trim().isEmpty()) {
+            return "Vui lòng nhập tên đăng nhập";
+        }
+        
+        // Validate password
+        if (password == null || password.trim().isEmpty()) {
+            return "Vui lòng nhập mật khẩu";
+        }
+        
+        return null; // Không có lỗi
+    }
+
+    @Override
+    public String forgotPassword(String email) {
+        String error = validateForgotPasswordEmail(email);
+        if (error != null) {
+            return null;
+        }
+        User user = userDao.findByEmail(email.trim());
+        if (user == null) {
+            return null;
+        }
+        return "OK"; // chỉ xác nhận email tồn tại
+    }
+
+    @Override
+    public boolean updatePasswordByEmail(String email, String newPassword) {
+        return userDao.updatePasswordByEmail(email.trim(), newPassword.trim());
+    }
+
+    @Override
+    public String validateNewPassword(String password, String confirmPassword) {
+        if (password == null || password.trim().isEmpty()) {
+            return "Mật khẩu không được để trống";
+        }
+        if (password.trim().length() < 6) {
+            return "Mật khẩu phải có ít nhất 6 ký tự";
+        }
+        if (password.trim().length() > 255) {
+            return "Mật khẩu không được quá 255 ký tự";
+        }
+        if (confirmPassword == null || confirmPassword.trim().isEmpty()) {
+            return "Vui lòng nhập lại mật khẩu xác nhận";
+        }
+        if (!password.trim().equals(confirmPassword.trim())) {
+            return "Mật khẩu xác nhận không khớp";
+        }
+        return null;
+    }
+
+    @Override
+    public String validateForgotPasswordEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return "Vui lòng nhập email";
+        }
+        if (!isValidEmail(email.trim())) {
+            return "Email không hợp lệ";
+        }
+        return null;
+    }
 }
