@@ -245,4 +245,18 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public boolean updateProfile(User user) {
+        if (user == null || user.getId() <= 0) return false;
+        if (user.getFullName() == null || user.getFullName().trim().isEmpty()) return false;
+        if (user.getEmail() == null || user.getEmail().trim().isEmpty() || !isValidEmail(user.getEmail().trim())) return false;
+        // Nếu password null/empty, giữ nguyên password cũ từ DB
+        User current = userDao.findById(user.getId());
+        if (current == null) return false;
+        if (user.getPassWord() == null || user.getPassWord().trim().isEmpty()) {
+            user.setPassWord(current.getPassWord());
+        }
+        return userDao.update(user);
+    }
 }

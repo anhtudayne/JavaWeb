@@ -109,4 +109,7 @@ public interface UserService {
     String validateForgotPasswordEmail(String email);
     boolean updatePasswordByEmail(String email, String newPassword);
     String validateNewPassword(String password, String confirmPassword);
+
+    // Cập nhật thông tin cá nhân (không bắt buộc đổi mật khẩu)
+    boolean updateProfile(User user);
 }
